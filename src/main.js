@@ -1,3 +1,6 @@
+import {getWeatherByCity} from './apiService.js';
+
+
 document.addEventListener('DOMContentLoaded', initializeApp);
 
 const viewElements = {};
@@ -33,4 +36,11 @@ const connectDOM = () => {
 const setUpListeners = () => {
     viewElements.searchInput.addEventListener(keydown, pressEnter);
     viewElements.searchButton.addEventListener(click, pressButton);
+}
+
+const pressEnter = event => {
+    let query = viewElements.searchInput.value;
+    if (event.key === 'Enter') {
+        getWeatherByCity(query);
+    }
 }
