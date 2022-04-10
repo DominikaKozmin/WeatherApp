@@ -36,14 +36,16 @@ const connectDOM = () => {
 const setUpListeners = () => {
     viewElements.searchInput.addEventListener('keydown', pressEnter);
     viewElements.searchButton.addEventListener('click', pressButton);
-    viewElements.returnToSearchBtn.addEventListener('click', switchView);
+    viewElements.returnToSearchBtn.addEventListener('click', returnToSearch);
 }
 
 const pressEnter = event => {
     if (event.key === 'Enter') {
+        fadeInOut();
         let query = viewElements.searchInput.value;
         getWeatherByCity(query);
         switchView();
+        fadeInOut();
     }
 }
 
@@ -56,10 +58,10 @@ const pressButton = () => {
 const switchView = () => {
     if (viewElements.weatherSearchView.style.display !== "none") {
         viewElements.weatherSearchView.style.display = "none";
-        viewElements.weatherForecastView.style.display = "block";
+        viewElements.weatherForecastView.style.display = "flex";
     }else {
         viewElements.weatherForecastView.style.display = "none";
-        viewElements.weatherSearchView.style.display = "block";
+        viewElements.weatherSearchView.style.display = "flex";
     }
 }
 
@@ -69,4 +71,12 @@ const fadeInOut = () => {
     }else {
         viewElements.mainContainer.style.opacity = "1";
     }
+}
+
+const returnToSearch = () => {
+    fadeInOut();
+    setTimeout(() => {
+        switchView();
+        fadeInOut();
+    }, 500);
 }
