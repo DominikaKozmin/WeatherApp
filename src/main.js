@@ -39,38 +39,58 @@ const setUpListeners = () => {
     viewElements.returnToSearchBtn.addEventListener('click', returnToSearch);
 }
 
+const fadeInOut = () => {
+    if (viewElements.mainContainer.style.opacity === "1" || viewElements.mainContainer.style.opacity === "" ) {
+        viewElements.mainContainer.style.opacity = "0";
+    }else {
+        viewElements.mainContainer.style.opacity = "1";
+    }
+}
+
 const pressEnter = event => {
     if (event.key === 'Enter') {
         fadeInOut();
         let query = viewElements.searchInput.value;
-        getWeatherByCity(query);
-        switchView();
-        fadeInOut();
+        getWeatherByCity(query).then(data => {
+            displayWeatherData(data);
+        });
     }
-}
+};
 
 const pressButton = () => {
+    fadeInOut();
     let query = viewElements.searchInput.value;
-    getWeatherByCity(query);
-    switchView();
-}
+    getWeatherByCity(query).then(data => {
+        displayWeatherData(data);
+    });
+};
 
 const switchView = () => {
     if (viewElements.weatherSearchView.style.display !== "none") {
         viewElements.weatherSearchView.style.display = "none";
-        viewElements.weatherForecastView.style.display = "flex";
+        viewElements.weatherForecastView.style.display = "block";
     }else {
         viewElements.weatherForecastView.style.display = "none";
         viewElements.weatherSearchView.style.display = "flex";
     }
 }
 
-const fadeInOut = () => {
-    if (viewElements.mainContainer.style.opacity === "1" || viewElements.mainContainer.style.opacity === " " ) {
-        viewElements.mainContainer.style.opacity = "0";
-    }else {
-        viewElements.mainContainer.style.opacity = "1";
-    }
+const displayWeatherData = data => {
+    switchView();
+    fadeInOut();
+
+    const weather = data.consolidated_weather[0];
+    viewElements.weatherCity.innerText = data.title;
+    viewElements.weatherIcon.src = `https://www.metaweather.com/static/img/weather/${weather.weather_state_abbr}.svg`;
+    viewElements.weatherIcon.alt = weather.weather_state_name;
+
+    const currTemp = weather.the_temp.toFixed(2);
+    const minTemp = weather.min_temp.toFixed(2);
+    const maxTemp = weather.max_temp.toFixed(2);
+
+    viewElements.weatherCurrentTemp.innerText = `Aktualna temperatura: ${currTemp} °C`;
+    viewElements.weatherMaxTemp.innerText =  `Maksymalna temperatura: ${maxTemp} °C`;
+    viewElements.weatherMinTemp.innerText =  `Minimalna temperatura: ${minTemp} °C`;
 }
 
 const returnToSearch = () => {
@@ -80,3 +100,4 @@ const returnToSearch = () => {
         fadeInOut();
     }, 500);
 }
+
