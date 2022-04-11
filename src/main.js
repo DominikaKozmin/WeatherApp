@@ -74,13 +74,13 @@ class WeatherApp {
     this.viewElements.weatherIcon.src = `https://www.metaweather.com/static/img/weather/${weather.weather_state_abbr}.svg`;
     this.viewElements.weatherIcon.alt = weather.weather_state_name;
     
-    const currTemp = weather.the_temp.toFixed(2);
+    const currentTemp = weather.the_temp.toFixed(2);
     const maxTemp = weather.max_temp.toFixed(2);
     const minTemp = weather.min_temp.toFixed(2);
   
-    this.viewElements.weatherCurrentTemp.innerText = `Current temperature: ${currTemp}°C`;
-    this.viewElements.weatherMaxTemp.innerText = `Max temperature: ${maxTemp}°C`;
-    this.viewElements.weatherMinTemp.innerText = `Min temperature: ${minTemp}°C`;
+    this.viewElements.weatherCurrentTemp.innerText = `Aktualna temperatura: ${currentTemp} °C`;
+    this.viewElements.weatherMaxTemp.innerText = `Maksymalna temperatura: ${maxTemp} °C`;
+    this.viewElements.weatherMinTemp.innerText = `Minimalna temperatura: ${minTemp} °C`;
   }
 }
 
